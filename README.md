@@ -2,10 +2,30 @@
 Group project for StacsHack 4 hackathon
 
 CO2 calculator:
+module name = emissions.py
 calculateEmissions(trip)
-  trip: a dictionary containing the following:
-    distance: distance in miles, used with non-flights
-    time: time in seconds, used with flights
-    vehicle: a string of the vehicle used:
+  trip: dictionary, containing the following:
+    distance: float, distance in miles, used with non-flights
+    passengers: int, number of passengers
+    time: int, time in minutes, used with flights
+    vehicle: string, the vehicle used:
       FLIGHT, CAR, BICYCLE, WALKING, BUS, INTERCITY_BUS, FERRY, RAIL
-  returns: the same dictionary, with a parameter emissions: X inserted, where X is in a sensible unit
+  returns: dictionary, containing the old dictionary and a parameter emissions: X inserted, where X is in a sensible unit
+  
+API callers:
+
+module name = skyscanner.py
+findFlights(origin, dest)
+  origin, dest: strings, city or town names
+  returns: a list of routes, where each route is a list of steps, where each step is a dictionary containing the following:
+    distance: None
+    time, int, time in minutes
+    vehicle: string, "FLIGHT"
+
+module name = gmaps.py
+findRoutes(origin, dest)
+  origin, dest: strings, city or town names
+  returns: a list of routes, where each route is a list of steps, where each step is a dictionary containing the following:
+    distance: float, distance in miles
+    time, None
+    vehicle: string, the vehicle used.
