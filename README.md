@@ -5,7 +5,7 @@ CO2 calculator:
 module name = emissions.py
 calculateEmissions(trip)
   trip: dictionary, containing the following:
-    distance: float, distance in miles, used with non-flights
+    distance: int, distance in meters, used with non-flights
     passengers: int, number of passengers
     time: int, time in minutes, used with flights
     vehicle: string, the vehicle used:
@@ -29,7 +29,7 @@ findRoutes(origin, dest, passengers)
   origin, dest: strings, city or town names
   passengers: int, number of passengers
   returns: a list of routes, where each route is a list of steps, where each step is a dictionary containing the following:
-    distance: float, distance in miles
+    distance: int, distance in meters
     passengers: int, number of passengers
     time, None
     vehicle: string, the vehicle used.
