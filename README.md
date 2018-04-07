@@ -15,17 +15,21 @@ calculateEmissions(trip)
 API callers:
 
 module name = skyscanner.py
-findFlights(origin, dest)
+findFlights(origin, dest, passengers)
   origin, dest: strings, city or town names
+  passengers: int, number of passengers
   returns: a list of routes, where each route is a list of steps, where each step is a dictionary containing the following:
     distance: None
+    passengers: int, number of passengers
     time, int, time in minutes
     vehicle: string, "FLIGHT"
 
 module name = gmaps.py
-findRoutes(origin, dest)
+findRoutes(origin, dest, passengers)
   origin, dest: strings, city or town names
+  passengers: int, number of passengers
   returns: a list of routes, where each route is a list of steps, where each step is a dictionary containing the following:
     distance: float, distance in miles
+    passengers: int, number of passengers
     time, None
     vehicle: string, the vehicle used.
