@@ -24,21 +24,32 @@ def createSession(origin, dest, passengerNum):
     destLoc = getLocation(dest)
     url = baseURL + "/pricing/v1.0"
     headers = {'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json'}
-    payload = {'locationSchema': 'iata', 'country': 'UK','currency': 'GBP', 'locale': 'en-GB', 'originplace': originLoc, 'destinationplace': destLoc, 'outbounddate' : '2018-09-07', 'adults': passengerNum , 'apikey': apiKey}
+    payload = {'locationSchema': 'iata', 'country': 'UK','currency': 'GBP', 'locale': 'en-GB', 'originplace': originLoc, 'destinationplace': destLoc, 'outbounddate' : '2018-04-08', 'adults': passengerNum , 'apikey': apiKey}
     r = requests.post(url, headers=headers, data=payload)
     print(r)
-    print(r.headers.get('Location'))
+    # print(r.headers.get('Location'))
     sessionList = r.headers.get('Location').split('/')
     sessionID = sessionList[-1]
     return sessionID
 
-def retrieveDetails(sessionID):
+def retrieveDetails(sessionID, passengerNum):
     # TODO
     url = baseURL + "/pricing/v1.0/" + sessionID
     payload = {'apiKey': apiKey}
     r = requests.get(url, params=payload)
     print(r)
-    print(r.text)
+    # print(r.text)
+    locationJson = r.text
+    myjson = json.loads(locationJson)
+    legsList = myjson['Legs']
+    # print(legsList)
+    routes = []
+    for i in range(5):
+        if len(legsList) < (i + 1):
+            break;
+        routes.append([{'distance': None, 'time': legsList[i]['Duration'], 'vehicle': 'Flight', 'passengers': passengerNum}]) #'distance': None, 'time': legsList[i]['Duration'], 'vehicle': 'Flight', 'passengers': passengerNum
+    print(routes)
+    return routes
 
 
 
@@ -46,11 +57,8 @@ def retrieveDetails(sessionID):
 #Called from main
 def findFlights(origin, dest, passengerNum):
     sessionID = createSession(passengerNum, origin, 2)
-    retrieveDetails(sessionID)
-
-#used for testing
-def main():
-    findFlights("Berlin", "Madrid", 2)
+    routes = retrieveDetails(sessionID, passengerNum)
+    return routes
 
 if __name__ == "__main__":
-    main()
+    findFlights("Berlin", "Madrid", 2)
