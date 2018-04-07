@@ -1,7 +1,7 @@
 import requests
 
 #Takes an address and returns an airport code string
-def findNearbyAirport(address):
+def findNearbyAirports(address):
     payload = {'address': address, 'key': 'AIzaSyCtPHcJxNLUbND4udbOtli5cra3CqhZ4xc'}    #parameters
     urlString = 'https://maps.googleapis.com/maps/api/geocode/json'
     r = requests.get(urlString, params=payload)
@@ -16,13 +16,20 @@ def getAirportCode(lon, lat):
     r = requests.post(postString, data=postParams)
     response = r.json()
     token = response['access_token']
-    #print(response)
     
     urlString = 'https://api.lufthansa.com/v1/references/airports/nearest/' + str(lon) + "," + str(lat)
     authStr = 'Bearer ' + token
     headers = {'Authorization': authStr, 'Accept': 'application/json'}
     r = requests.get(urlString, headers=headers)
     response = r.json()
-    return response['NearestAirportResource']['Airports']['Airport'][0]['AirportCode']
 
-#findNearbyAirport('St Andrews')
+    airports = response['NearestAirportResource']['Airports']['Airport']
+    apnames = []
+    for i, ap in enumerate(airports):
+        names = airports[i]['Names']['Name']
+        for k, name in enumerate(names):
+            if name['@LanguageCode'] == 'en':
+                apnames.append(name['$'])
+    return apnames
+
+#print(findNearbyAirports('St Andrews'))
