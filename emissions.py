@@ -15,6 +15,7 @@ co2Data = {'CAR':8.91/1609.34,
 'OTHER':0}
 
 def  calculateEmissions(seg):
+    #print(seg)
     RES = None
     if seg['vehicle']=='FLIGHT':
         planeDist = (seg['time'])*14750

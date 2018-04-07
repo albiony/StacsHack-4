@@ -24,12 +24,19 @@ def getAirportCode(lon, lat):
     response = r.json()
 
     airports = response['NearestAirportResource']['Airports']['Airport']
+    #print(airports)
+    #print()
     apnames = []
     for i, ap in enumerate(airports):
         names = airports[i]['Names']['Name']
-        for k, name in enumerate(names):
-            if name['@LanguageCode'] == 'en':
-                apnames.append(name['$'])
+        if type(names) is dict:
+            #print(names)
+            apnames.append(name['$'])
+        else:
+            for name in names:
+                #print(name)                
+                if name['@LanguageCode'] == 'en':
+                    apnames.append(name['$'])
     return apnames
 
 #print(findNearbyAirports('St Andrews'))

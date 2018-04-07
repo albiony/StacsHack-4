@@ -8,20 +8,27 @@ def findFlights(origin, dest, passengers):
     return [[{'time': 60, 'distance': None, 'passengers': passengers, 'vehicle': 'FLIGHT'}]]
 
 #Get these from the user:
-origin = "Edinburgh"
+origin = "St Andrews"
 dest = "London"
 passengers = 1
 
 flights = findFlights(origin, dest, passengers)
-#if not flights:
+if not flights:
     #One of the inputs didn't have an airport
-    #originAps = findNearbyAirports(origin)
-    #destAps = findNearbyAirports(dest)
+    originAps = findNearbyAirports(origin)
+    destAps = findNearbyAirports(dest)
 
     #For now, try the first ones:
-    #findFlights(originAps[0], destAps[0], passengers)
+    flights = findFlights(originAps[0], destAps[0], passengers)
 
-
+    if (originAps[0].split(' ')[-1] != 'Airport'):  #A horrible hack
+        originAps[0] += ' Airport'
+    if (destAps[0].split(' ')[-1] != 'Airport'):  #A horrible hack
+        destAps[0] += ' Airport'
+    legToAp = findSingleRoute(origin, originAps[0], passengers)
+    legFromAp = findSingleRoute(destAps[0], dest, passengers)
+    
+    flights = [legToAp + flights[0] + legFromAp]
 
 others = findRoutes(origin, dest, passengers)
 
