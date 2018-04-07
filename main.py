@@ -1,11 +1,12 @@
 from gmaps import *
 from emissions import *
 from airports import findNearbyAirports
+from skyscanner import *
 
-def findFlights(origin, dest, passengers):
-    if origin == "St Andrews":
-        return []
-    return [[{'time': 60, 'distance': None, 'passengers': passengers, 'vehicle': 'FLIGHT'}]]
+#def findFlights(origin, dest, passengers):
+    #if origin == "St Andrews":
+        #return []
+    #return [[{'time': 60, 'distance': None, 'passengers': passengers, 'vehicle': 'FLIGHT'}]]
 
 #Get these from the user:
 origin = "St Andrews"
@@ -13,20 +14,23 @@ dest = "London"
 passengers = 1
 
 flights = findFlights(origin, dest, passengers)
-if not flights:
+if flights is None:
     #One of the inputs didn't have an airport
     originAps = findNearbyAirports(origin)
     destAps = findNearbyAirports(dest)
 
     #For now, try the first ones:
-    flights = findFlights(originAps[0], destAps[0], passengers)
+    i = -1
+    while flights is None:
+        i += 1
+        flights = findFlights(originAps[i], destAps[i], passengers)
 
-    if (originAps[0].split(' ')[-1] != 'Airport'):  #A horrible hack
-        originAps[0] += ' Airport'
-    if (destAps[0].split(' ')[-1] != 'Airport'):  #A horrible hack
-        destAps[0] += ' Airport'
-    legToAp = findSingleRoute(origin, originAps[0], passengers)
-    legFromAp = findSingleRoute(destAps[0], dest, passengers)
+    if (originAps[i].split(' ')[-1] != 'Airport'):  #A horrible hack
+        originAps[i] += ' Airport'
+    if (destAps[i].split(' ')[-1] != 'Airport'):  #A horrible hack
+        destAps[i] += ' Airport'
+    legToAp = findSingleRoute(origin, originAps[i], passengers)
+    legFromAp = findSingleRoute(destAps[i], dest, passengers)
     
     flights = [legToAp + flights[0] + legFromAp]
 

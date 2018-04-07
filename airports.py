@@ -28,15 +28,17 @@ def getAirportCode(lon, lat):
     #print()
     apnames = []
     for i, ap in enumerate(airports):
-        names = airports[i]['Names']['Name']
-        if type(names) is dict:
+        airportCode = airports[i]['AirportCode']
+        apnames.append(airportCode)
+        #names = airports[i]['Names']['Name']
+        #if type(names) is dict:
             #print(names)
-            apnames.append(name['$'])
-        else:
-            for name in names:
+            #apnames.append(name['$'])
+        #else:
+            #for name in names:
                 #print(name)                
-                if name['@LanguageCode'] == 'en':
-                    apnames.append(name['$'])
+                #if name['@LanguageCode'] == 'en':
+                    #apnames.append(name['$'])
     return apnames
 
 #print(findNearbyAirports('St Andrews'))
