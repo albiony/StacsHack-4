@@ -5,7 +5,7 @@ import numpy as np
 
 co2Data = {'CAR':8.91/1609.34,
 'BICYCLE':0,
-'WALKING':8.91/1609.34,
+'WALKING':0,
 'BUS': 0.061/1609.34,
 'INTERCITY_BUS':0.055/1609.34,
 'FERRY':0.475/1609.34,
