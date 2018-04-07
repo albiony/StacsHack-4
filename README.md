@@ -9,7 +9,7 @@ calculateEmissions(trip)
     passengers: int, number of passengers
     time: int, time in minutes, used with flights
     vehicle: string, the vehicle used:
-      FLIGHT, CAR, BICYCLE, WALKING, BUS, INTERCITY_BUS, FERRY, RAIL
+      FLIGHT, CAR, BICYCLE, WALKING, BUS, INTERCITY_BUS, FERRY, RAIL, SUBWAY, TRAM
   returns: dictionary, containing the old dictionary and a parameter emissions: X inserted, where X is in a sensible unit
   
 API callers:
