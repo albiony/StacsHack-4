@@ -1,5 +1,3 @@
-#module gmaps
-
 import requests
 
 #origin, dest: strings, city or town names
@@ -54,6 +52,4 @@ def findRoutes(origin, dest, passengers):
             route.append(step)
         routes.append(route)
     return routes
-
-print(findRoutes("St Andrews", "London", 1))
 
