@@ -11,7 +11,8 @@ app.get('/', serveStatic);
 app.get('/calc/:origin-:dest-:passengers', runCalculation);
 
 function serveStatic(req, res) {
-    res.send('GET static webpage, return HTML & js');
+    res.sendFile("./Client/index.html", { root: '.' });
+    res.sendFile("./Client/client.js", { root: '.' });
 }
 
 function runCalculation(req, res) {
