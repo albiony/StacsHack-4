@@ -3,11 +3,12 @@ $( document ).ready(function() {
         var origin = $(this).siblings(".origin").val();
         var dest = $(this).siblings(".destination").val();
         var people = $(this).siblings(".passengers").val();
-        alert("origin: " + origin + ", dest: " + dest + "people: " + people);
+        //alert("origin: " + origin + ", dest: " + dest + "people: " + people);
+        //var data = {"routes":[[{"distance" : 1800000, "time": 110, "vehicle": "FLIGHT", "passengers": 3, "emission": 200}]]};
+        //parseJson(data);
         $(function(){
     $.ajax("calc/"+origin + "-" + dest + "-" + people, {
         success: function(data) {
-          var data = {"routes":[[{"distance" : 39, "time": 110, "vehicle": "FLIGHT", "passengers": 3, "emission": 200}]]};
           alert('Success!');
           var jsonData = JSON.parse(data);
           parseJson(jsonData);
@@ -22,22 +23,19 @@ $( document ).ready(function() {
 function parseJson(json) {
   var routes = json.routes;
   var returnValues=[];
-  for (var i = 0; i < routes.size(); i++) {
+  for (var i = 0; i < routes.length; i++) {
     var route = routes[i];
-    for (var j = 0; j < route.size(); j++) {
+    var totEmision = 0.0;
+    for (var j = 0; j < route.length; j++) {
       var step = route[j];
       var vehicles = [];
-      var totEmision = 0.0;
-      for (var k = 0; k < step.size(); k++) {
-        vehicles.push(step[k].vehicle);
-        var emission = step[k].emission;
-        totEmision = totEmision + emission;
-        //var dist = step[k].distance;
-        //var pas = step[k].passengers;
-        returnValues.push([dist, time, veh, pas, emission]);
-      }
+        vehicles.push(step.vehicle);
+        var emission = step.emission;
+        totEmision += emission;
+      returnValues.push([vehicles,totEmision]);
     }
   }
+  return returnValues;
 }
 
 function fillDOM(vehicles, emission) {
