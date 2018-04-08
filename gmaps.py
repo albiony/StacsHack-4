@@ -106,4 +106,3 @@ def findSingleRoute(origin, dest, passengers, mode):
             steps.append(step)
     #print(steps)
     return steps
-
