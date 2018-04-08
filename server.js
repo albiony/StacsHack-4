@@ -7,7 +7,8 @@ var app = express();
 const port = 3000;
 
 app.listen(3000);
-app.get('/', serveStatic);
+app.use(express.static('Client'));
+//app.get('/', serveStatic);
 app.get('/calc/:origin-:dest-:passengers', runCalculation);
 
 function serveStatic(req, res) {

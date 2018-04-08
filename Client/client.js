@@ -3,15 +3,17 @@ $( document ).ready(function() {
         var origin = $(this).siblings(".origin").val();
         var dest = $(this).siblings(".destination").val();
         var people = $(this).siblings(".passengers").val();
-        //alert("origin: " + origin + ", dest: " + dest + "people: " + people);
+        alert("origin: " + origin + ", dest: " + dest + "people: " + people);
         //var data = {"routes":[[{"distance" : 1800000, "time": 110, "vehicle": "FLIGHT", "passengers": 3, "emission": 200}]]};
         //parseJson(data);
         $(function(){
-    $.ajax("calc/"+origin + "-" + dest + "-" + people, {
+    $.ajax("/calc/"+origin + "-" + dest + "-" + people, {
         success: function(data) {
           alert('Success!');
           var jsonData = JSON.parse(data);
-          parseJson(jsonData);
+          var x = parseJson(jsonData);
+          fillDOM(x);
+           
         },
         error: function() {
             alert("There was an error while submitting form");
@@ -38,8 +40,27 @@ function parseJson(json) {
   return returnValues;
 }
 
-function fillDOM(vehicles, emission) {
+function fillDOM(list) {
+    for (var route in list) {
+        newli = document.createElement("li");
+        newdiv = document.createElement("div");
+        d = $(newdiv);
+        newTxt = $("<b>Route option</b>")
+        newul = document.createElement("us");
+        nu = $(newul);
+        d.append(newTxt);
+        var vehicles = route[0];
 
+        for (var veh in vehicles) {
+            newsmallli = document.createElement("li");
+            newveh = $("<b>" + veh + "</b>")
+            newveh.appendTo(d);
+            d.append(nu);
+        }
+        total = $("<p>" + route[1] + "</>")
+        d.append(total)
+        $("#list").append(d);
+    }
 }
 
 
