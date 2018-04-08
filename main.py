@@ -11,13 +11,13 @@ def eprint(*args, **kwargs):
 #Get these from the user:
 #eprint(len(sys.argv))
 #print("Arg1: "+ sys.argv[1])
-origin = sys.argv[1]
-dest = sys.argv[2]
-passengers = int(sys.argv[3])
+#origin = sys.argv[1]
+#dest = sys.argv[2]
+#passengers = int(sys.argv[3])
 
-#origin = "St Andrews"
-#dest = "London"
-#passengers = 2
+origin = "St Andrews"
+dest = "London"
+passengers = 2
 
 flights = findFlights(origin, dest, passengers)
 if flights is None:
@@ -35,14 +35,16 @@ if flights is None:
         originAps[i] += ' Airport'
     if (destAps[i].split(' ')[-1] != 'Airport'):  #A horrible hack
         destAps[i] += ' Airport'
-    legToAp = findSingleRoute(origin, originAps[i], passengers)
-    legFromAp = findSingleRoute(destAps[i], dest, passengers)
+    legToAp = findSingleRoute(origin, originAps[i], passengers, 'transit')
+    legFromAp = findSingleRoute(destAps[i], dest, passengers, 'transit')
     
     flights = [legToAp + flights[0] + legFromAp]
 
-others = findRoutes(origin, dest, passengers)
+car = findSingleRoute(origin, dest, passengers, 'driving')
+bike = findSingleRoute(origin, dest, passengers, 'bicycling')
+transit = findRoutes(origin, dest, passengers, 'transit')
 
-routes = flights + others
+routes = flights + transit + [bike] + [car]
 
 #If findflights is an empty list (or None?), use input to get nearest airport codes
 

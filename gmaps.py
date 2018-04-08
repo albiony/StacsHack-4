@@ -9,9 +9,9 @@ import requests
 #passengers: int, number of passengers
 #time, None 
 #vehicle: string, the vehicle used.
-def findRoutes(origin, dest, passengers):
+def findRoutes(origin, dest, passengers, mode):
     payload = {'alternatives': 'true', 'origin': origin, 'destination': dest, 
-        'key': 'AIzaSyA6S6OY74W3tymVCzD2jJfxGY7qdpZYx7Q', 'mode': 'transit'}    #parameters
+        'key': 'AIzaSyA6S6OY74W3tymVCzD2jJfxGY7qdpZYx7Q', 'mode': mode}    #parameters
     urlString = 'https://maps.googleapis.com/maps/api/directions/json'
     r = requests.get(urlString, params=payload)
     response= r.json()
@@ -54,18 +54,34 @@ def findRoutes(origin, dest, passengers):
     return routes
 
 #Returns a single route, e.g. a list of steps
-def findSingleRoute(origin, dest, passengers):
+def findSingleRoute(origin, dest, passengers, mode):
     payload = {'alternatives': 'false', 'origin': origin, 'destination': dest, 
-        'key': 'AIzaSyA6S6OY74W3tymVCzD2jJfxGY7qdpZYx7Q', 'mode': 'transit'}    #parameters
+        'key': 'AIzaSyA6S6OY74W3tymVCzD2jJfxGY7qdpZYx7Q', 'mode': mode}    #parameters
     urlString = 'https://maps.googleapis.com/maps/api/directions/json'
     r = requests.get(urlString, params=payload)
     response= r.json()
 
     steps = []
     #print(origin + ", " + dest)
-    #print(response['routes'])
+    legJson = response['routes'][0]['legs'][0]
     stepsJson = response['routes'][0]['legs'][0]['steps']
-    for st in stepsJson:
+
+    if mode == 'driving':
+        step = {}
+        step['distance'] = legJson['distance']['value']
+        step['passengers'] = passengers
+        step['time'] = None
+        step['vehicle'] = 'CAR'
+        steps.append(step)
+    elif mode == 'bicycling':
+        step = {}
+        step['distance'] = legJson['distance']['value']
+        step['passengers'] = passengers
+        step['time'] = None
+        step['vehicle'] = 'BICYCLING'
+        steps.append(step)
+    else:
+        for st in stepsJson:
             step = {}
             step['distance'] = st['distance']['value']
             step['passengers'] = passengers
@@ -74,10 +90,6 @@ def findSingleRoute(origin, dest, passengers):
 
             if mode == 'WALKING':
                 step['vehicle'] = mode
-            elif mode == 'BICYCLING':
-                step['vehicle'] = 'BICYCLE'
-            elif mode == 'DRIVING':
-                step['vehicle'] = 'CAR'
             else:
                 vehicle = st['transit_details']['line']['vehicle']['type']
 
