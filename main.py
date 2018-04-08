@@ -3,10 +3,7 @@ from emissions import *
 from airports import findNearbyAirports
 from skyscanner import *
 
-#def findFlights(origin, dest, passengers):
-    #if origin == "St Andrews":
-        #return []
-    #return [[{'time': 60, 'distance': None, 'passengers': passengers, 'vehicle': 'FLIGHT'}]]
+import sys
 
 #Get these from the user:
 origin = "St Andrews"
@@ -45,3 +42,4 @@ for route in routes:
         leg = calculateEmissions(leg)
 
 print (routes)
+sys.stdout.flush()

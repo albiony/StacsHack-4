@@ -62,7 +62,7 @@ def findSingleRoute(origin, dest, passengers):
     response= r.json()
 
     steps = []
-    print(origin + ", " + dest)
+    #print(origin + ", " + dest)
     #print(response['routes'])
     stepsJson = response['routes'][0]['legs'][0]['steps']
     for st in stepsJson:

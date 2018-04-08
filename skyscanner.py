@@ -11,7 +11,7 @@ def getLocation(town):
         r = requests.get(url, params=payload)
         if r.status_code == 200:
              break;
-    print(r)
+    #print(r)
     locationJson = r.text
     myjson = json.loads(locationJson)
     #print(myjson['Places'][0]['PlaceId'])
@@ -32,7 +32,7 @@ def createSession(origin, dest, passengerNum):
         headers = {'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json'}
         payload = {'locationSchema': 'iata', 'country': 'UK','currency': 'GBP', 'locale': 'en-GB', 'originplace': originLoc, 'destinationplace': destLoc, 'outbounddate' : '2018-04-08', 'adults': passengerNum , 'apikey': apiKey}
         r = requests.post(url, headers=headers, data=payload)
-        print(r)
+        #print(r)
         if r.status_code == 201:
              break;
     # print(r.headers.get('Location'))
@@ -45,7 +45,7 @@ def retrieveDetails(sessionID, passengerNum):
         url = baseURL + "/pricing/v1.0/" + sessionID
         payload = {'apiKey': apiKey}
         r = requests.get(url, params=payload)
-        print(r)
+        #print(r)
         if r.status_code == 200:
              break;
         # print(r.text)
@@ -58,7 +58,7 @@ def retrieveDetails(sessionID, passengerNum):
         if len(legsList) < (i + 1):
             break;
         routes.append([{'distance': None, 'time': legsList[i]['Duration'], 'vehicle': 'FLIGHT', 'passengers': passengerNum}]) #'distance': None, 'time': legsList[i]['Duration'], 'vehicle': 'Flight', 'passengers': passengerNum
-    print(routes)
+    #print(routes)
     return routes
 
 
