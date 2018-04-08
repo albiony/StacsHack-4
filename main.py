@@ -5,10 +5,19 @@ from skyscanner import *
 
 import sys
 
+def eprint(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
+
 #Get these from the user:
-origin = "St Andrews"
-dest = "London"
-passengers = 1
+#eprint(len(sys.argv))
+#print("Arg1: "+ sys.argv[1])
+origin = sys.argv[1]
+dest = sys.argv[2]
+passengers = int(sys.argv[3])
+
+#origin = "St Andrews"
+#dest = "London"
+#passengers = 2
 
 flights = findFlights(origin, dest, passengers)
 if flights is None:
@@ -41,5 +50,6 @@ for route in routes:
     for leg in route:
         leg = calculateEmissions(leg)
 
-print (routes)
+print("{ routes: " + str(routes) + "}")
+#print(routes)
 sys.stdout.flush()
